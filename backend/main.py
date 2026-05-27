@@ -110,9 +110,18 @@ st.markdown("""
 # Session state initialization
 if 'reminders' not in st.session_state:
     st.session_state.reminders = [
-        {"name": "Folic Acid", "timing": "Morning (8:00 AM)"},
-        {"name": "Iron", "timing": "Afternoon (1:00 PM)"}
+        {
+            "name": "Folic Acid", 
+            "timing": "Morning (8:00 AM)",
+            "importance": "Supports early development of the baby's brain and spinal cord, significantly reducing the risk of neural tube defects (NTDs)."
+        },
+        {
+            "name": "Iron", 
+            "timing": "Afternoon (1:00 PM)",
+            "importance": "Crucial for producing hemoglobin, which carries oxygen to your organs and your baby. Helps prevent iron-deficiency anemia, fatigue, and preterm birth."
+        }
     ]
+
 
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
@@ -331,7 +340,13 @@ with tab2:
         
         if st.button("Add Reminder"):
             if med_name and med_time:
-                st.session_state.reminders.append({"name": med_name, "timing": med_time})
+                with st.spinner("Generating educational note..."):
+                    importance_note = get_supplement_importance(med_name)
+                st.session_state.reminders.append({
+                    "name": med_name, 
+                    "timing": med_time,
+                    "importance": importance_note
+                })
                 st.success(f"Added reminder for {med_name}!")
                 st.rerun()
             else:
@@ -343,7 +358,10 @@ with tab2:
             st.info("No medication reminders added yet.")
         else:
             for idx, rem in enumerate(st.session_state.reminders):
-                importance_note = get_supplement_importance(rem['name'])
+                importance_note = rem.get('importance')
+                if not importance_note:
+                    importance_note = get_supplement_importance(rem['name'])
+                    rem['importance'] = importance_note
                 
                 # Layout reminder card
                 with st.container():
@@ -358,6 +376,7 @@ with tab2:
                     if st.button(f"Remove", key=f"del_{idx}"):
                         st.session_state.reminders.pop(idx)
                         st.rerun()
+
 
 # --- TAB 3: CONVERSATIONAL ASSISTANT ---
 with tab3:

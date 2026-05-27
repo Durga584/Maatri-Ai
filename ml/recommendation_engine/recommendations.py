@@ -160,17 +160,21 @@ def get_recommendations(risk_level, health_parameters):
 def get_supplement_importance(med_name):
     """
     Look up the educational importance note for a medicine.
-    Returns a standard explanation if the medicine is recognized, or a generic reminder note.
+    Returns a standard explanation if the medicine is recognized in the local SUPPLEMENT_IMPORTANCE dictionary,
+    otherwise dynamically queries the Gemini API. If Gemini fails, returns a safe fallback message.
     """
     clean_name = med_name.strip().lower()
     
-    # Try exact match or substring match
+    # Hybrid Approach: First check the local dictionary of trusted pregnancy supplements
     for key, val in SUPPLEMENT_IMPORTANCE.items():
         if key in clean_name or clean_name in key:
             return val
             
-    # Generic explanation if not found in list
-    return (
-        "Taking your medication exactly as prescribed by your doctor is essential "
-        "to support your body and ensure a safe environment for your baby's development."
-    )
+    # If not found locally, dynamically generate explanation using Gemini API
+    try:
+        from llm.chatbot import generate_medicine_info
+        return generate_medicine_info(med_name)
+    except Exception as e:
+        print(f"Error importing or calling generate_medicine_info for '{med_name}': {e}")
+        return "Please consult your doctor for information regarding this medicine."
+

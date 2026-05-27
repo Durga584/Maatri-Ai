@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Maatri AI — LLM-Integrated Maternal Healthcare Intelligence System
 
 Maatri AI is a maternal healthcare intelligence system that combines machine learning-based pregnancy risk prediction, explainable AI, personalized healthcare recommendations, and conversational AI support to provide intelligent maternal healthcare assistance for pregnant and postpartum women.
@@ -97,3 +98,6 @@ To interact with the research and development notebooks:
 ## Medical Disclaimer
 
 ⚠️ **IMPORTANT**: Maatri AI is an educational tool. It does **not** prescribe medications, perform medical diagnoses, or replace professional care. Always consult an obstetrician or healthcare professional for medical concerns.
+=======
+# Maatri-Ai
+>>>>>>> 67cd9f377f2dd20d258798b7d6d24ed9d339b331
