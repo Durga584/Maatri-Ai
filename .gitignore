@@ -1,0 +1,22 @@
+# Secrets and environment variables
+.env
+
+# Python caching
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# ML models and datasets (avoiding committing large binary data)
+models/*.joblib
+datasets/maternal_health_risk.csv
+models/test_shap_plot.png
