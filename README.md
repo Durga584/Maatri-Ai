@@ -1,229 +1,224 @@
 # 🤱 Maatri AI – Intelligent Maternal Healthcare Assistant
 
-## Overview
-
-Maatri AI is an AI-powered maternal healthcare intelligence system designed to assist pregnant women and new mothers through personalized risk assessment, explainable machine learning, evidence-based recommendations, and conversational AI support.
-
-The project combines **Machine Learning**, **Large Language Models (LLMs)**, **Retrieval-Augmented Generation (RAG)**, and **Explainable AI (SHAP)** to provide safe, transparent, and context-aware maternal healthcare guidance.
-
-> **Disclaimer:** Maatri AI is an educational and informational assistant. It does not replace professional medical advice, diagnosis, or treatment.
+Maatri AI is an AI-powered maternal healthcare application designed to assist pregnant women by combining **Machine Learning**, **Explainable AI**, and **Generative AI**. The application predicts maternal health risks, explains the prediction using SHAP, provides personalized healthcare recommendations, and answers pregnancy-related questions through Google's Gemini AI.
 
 ---
 
-# Features
+## 🌟 Features
 
-### 🤖 AI Chat Assistant
+### 🩺 Maternal Health Risk Prediction
+- Predicts pregnancy risk as:
+  - Low Risk
+  - Mid Risk
+  - High Risk
+- Built using a trained **Random Forest Classifier**.
 
-* Conversational maternal healthcare assistant powered by Gemini.
-* Answers pregnancy, postpartum, nutrition, and newborn care questions.
-* Uses prompt engineering and safety guardrails to minimize unsafe responses.
-
-### 📚 Retrieval-Augmented Generation (RAG)
-
-* Retrieves relevant information from a curated maternal healthcare knowledge base.
-* Generates context-aware and evidence-based responses instead of relying only on the LLM's internal knowledge.
-
-### 🩺 Pregnancy Risk Prediction
-
-Predicts maternal health risk as:
-
-* Low Risk
-* Mid Risk
-* High Risk
-
-using clinical parameters including:
-
-* Age
-* Systolic Blood Pressure
-* Diastolic Blood Pressure
-* Blood Sugar
-* Body Temperature
-* Heart Rate
-
-### 📊 Explainable AI
-
-Uses SHAP (SHapley Additive Explanations) to explain:
-
-* Why a prediction was made
-* Which health parameters contributed most
-* Individual feature importance for each prediction
+### 📊 Explainable AI (SHAP)
+- Explains why the model predicted a particular risk level.
+- Displays feature importance for every prediction.
+- Improves transparency and trust in AI-assisted healthcare.
 
 ### 💡 Personalized Recommendations
+- Generates health recommendations based on the predicted risk.
+- Provides guidance on lifestyle, nutrition, and medical precautions.
 
-Provides:
+### 🤖 AI Healthcare Chatbot
+- Powered by **Google Gemini 2.5 Flash**.
+- Answers pregnancy and maternal healthcare questions.
+- Uses prompt engineering and safety instructions to provide responsible responses.
 
-* Lifestyle recommendations
-* Nutrition guidance
-* Supplement awareness
-* Health precautions
-* Risk-specific suggestions
+### 🗄 Assessment History
+- Stores previous assessments using **SQLite**.
+- Enables users to review past predictions.
 
-### 📈 Interactive Dashboard
-
-* User-friendly Streamlit interface
-* Risk prediction visualization
-* SHAP explanation plots
-* AI-generated healthcare summaries
-* Conversational chatbot interface
+### 📈 Data Visualization
+- Displays prediction results and SHAP visualizations through an interactive Streamlit interface.
 
 ---
 
-# Project Architecture
+# 🏗 Project Architecture
 
 ```
-Maatri AI
-│
-├── Streamlit Frontend
-│
-├── FastAPI Backend
-│
-├── Database Layer
-│
-├── Machine Learning Module
-│      ├── Data Preprocessing
-│      ├── Model Training
-│      ├── Risk Prediction
-│      └── SHAP Explainability
-│
-├── Recommendation Engine
-│
-├── RAG Pipeline
-│      ├── Document Loader
-│      ├── Text Chunking
-│      ├── Embedding Generation
-│      ├── Vector Database
-│      └── Context Retrieval
-│
-└── Gemini LLM
-       │
-       └── Final AI Response
+                    User
+                      │
+                      ▼
+             Streamlit Application
+                      │
+      ┌───────────────┼────────────────┐
+      │               │                │
+      ▼               ▼                ▼
+Risk Prediction   AI Chatbot     Assessment History
+      │               │                │
+      ▼               ▼                ▼
+Random Forest     Gemini API        SQLite
+      │
+      ▼
+SHAP Explainability
+      │
+      ▼
+Recommendation Engine
 ```
 
 ---
 
-# Tech Stack
-
-## Programming Languages
-
-* Python
-
-## Frontend
-
-* Streamlit
-
-## Backend
-
-* FastAPI
-
-## Machine Learning
-
-* Scikit-learn
-* Random Forest
-* XGBoost
-* Pandas
-* NumPy
-
-## Explainable AI
-
-* SHAP
-
-## LLM & AI
-
-* Google Gemini
-* LangChain
-* Prompt Engineering
-
-## RAG
-
-* ChromaDB
-* FAISS
-* HuggingFace Embeddings (all-MiniLM-L6-v2)
-
-## Database
-
-* SQLite
-
-## Visualization
-
-* Matplotlib
-
----
-
-# Project Structure
+# 📂 Project Structure
 
 ```
-maatri-ai/
+Maatri-AI/
 │
 ├── backend/
+│   └── main.py                 # Streamlit application
+│
 ├── database/
+│   └── database.py             # SQLite operations
+│
 ├── datasets/
+│   └── download_dataset.py
+│
 ├── llm/
+│   ├── chatbot.py
+│   ├── prompts.py
+│   └── summary_generator.py
+│
 ├── ml/
-│   ├── explainability/
-│   ├── recommendation_engine/
-│   └── risk_prediction/
+│   ├── preprocessing.py
+│   ├── predict.py
+│   ├── train_model.py
+│   ├── evaluate.py
+│   ├── shap_explainer.py
+│   └── recommendations.py
 │
 ├── notebooks/
-├── models/
+│
 ├── requirements.txt
-├── README.md
-└── .env
+└── README.md
 ```
 
 ---
 
-# Installation
+# 🔄 Application Workflow
 
-Clone the repository:
+1. User enters maternal health parameters.
+2. Input data is preprocessed.
+3. The trained Random Forest model predicts the maternal health risk.
+4. SHAP explains which features influenced the prediction.
+5. Personalized healthcare recommendations are generated.
+6. The assessment is stored in SQLite.
+7. Users can ask pregnancy-related questions to the Gemini-powered chatbot.
+8. All outputs are displayed through the Streamlit interface.
 
-```bash
-git clone <repository-url>
-cd maatri-ai
+---
+
+# 🧠 Machine Learning Pipeline
+
+Input Features:
+
+- Age
+- Systolic Blood Pressure
+- Diastolic Blood Pressure
+- Blood Sugar
+- Body Temperature
+- Heart Rate
+
+↓
+
+Preprocessing
+
+↓
+
+Random Forest Model
+
+↓
+
+Risk Prediction
+
+↓
+
+SHAP Explainability
+
+↓
+
+Healthcare Recommendations
+
+---
+
+# 🤖 AI Chatbot Workflow
+
+```
+User Question
+      │
+      ▼
+Prompt Engineering
+      │
+      ▼
+Google Gemini API
+      │
+      ▼
+AI Response
+      │
+      ▼
+Streamlit Interface
 ```
 
-Create a virtual environment:
+---
+
+# 💾 Database
+
+SQLite is used to store maternal health assessments including:
+
+- Patient health parameters
+- Predicted risk level
+- Confidence score
+- Timestamp
+
+---
+
+# 🛠 Technologies Used
+
+| Technology | Purpose |
+|------------|----------|
+| Python | Core programming language |
+| Streamlit | Web application interface |
+| Scikit-learn | Machine Learning |
+| Random Forest | Maternal risk prediction |
+| SHAP | Explainable AI |
+| Google Gemini 2.5 Flash | AI chatbot |
+| Google GenAI SDK | Gemini integration |
+| SQLite | Local database |
+| Pandas | Data processing |
+| NumPy | Numerical operations |
+| Matplotlib | Data visualization |
+| python-dotenv | Environment variable management |
+
+---
+
+# 🚀 Installation
+
+Clone the repository
 
 ```bash
-python -m venv venv
+git clone https://github.com/Durga584/Maatri-Ai.git
 ```
 
-Activate the environment:
-
-### Windows
+Navigate to the project
 
 ```bash
-venv\Scripts\activate
+cd Maatri-Ai
 ```
 
-### Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies:
+Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Create a `.env` file:
+Create a `.env` file
 
-```env
+```text
 GEMINI_API_KEY=your_api_key_here
 ```
 
----
-
-# Running the Project
-
-Start the backend:
-
-```bash
-uvicorn backend.main:app --reload
-```
-
-If using Streamlit:
+Run the application
 
 ```bash
 streamlit run backend/main.py
@@ -231,57 +226,30 @@ streamlit run backend/main.py
 
 ---
 
-# Machine Learning Workflow
+# 📌 Future Improvements
 
-1. Load maternal health dataset.
-2. Perform preprocessing.
-3. Train ML models.
-4. Select the best-performing model.
-5. Predict maternal health risk.
-6. Generate SHAP explanations.
-7. Produce personalized recommendations.
-8. Display results in the dashboard.
-
----
-
-# AI Workflow
-
-1. User submits a healthcare query.
-2. Relevant documents are retrieved from the vector database.
-3. Retrieved context is combined with the prompt.
-4. Gemini generates a context-aware response.
-5. Safety guardrails validate the output.
-6. The final response is displayed to the user.
+- User authentication
+- Cloud database integration
+- Multi-language support
+- Doctor dashboard
+- Appointment scheduling
+- PDF health report generation
+- Wearable device integration
 
 ---
 
-# Key Highlights
+# 👩‍💻 Author
 
-* AI-powered maternal healthcare assistant
-* Explainable Machine Learning
-* Retrieval-Augmented Generation (RAG)
-* Prompt Engineering
-* Context-aware healthcare chatbot
-* Personalized recommendations
-* Interactive dashboard
-* Modular project architecture
-* Production-ready code organization
+**Durga Lakshmi Velagala**
+
+B.Tech Computer Science and Engineering
+
+Rajiv Gandhi University of Knowledge Technologies (RGUKT)
+
+GitHub: https://github.com/Durga584
 
 ---
 
-# Future Enhancements
+# 📜 License
 
-* Voice-based interaction
-* Multi-language support
-* Appointment scheduling
-* Doctor dashboard
-* Electronic Health Record (EHR) integration
-* Mobile application
-* Wearable device integration
-* Cloud deployment
-
----
-
-# Medical Disclaimer
-
-Maatri AI is intended for educational and informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Users should always consult qualified healthcare professionals for medical concerns.
+This project is developed for educational and research purposes.
