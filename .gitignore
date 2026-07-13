@@ -20,3 +20,5 @@ env/
 models/*.joblib
 datasets/maternal_health_risk.csv
 models/test_shap_plot.png
+# SQLite database
+*.db

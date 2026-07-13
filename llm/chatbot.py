@@ -91,13 +91,16 @@ class MaatriChatbot:
                 model=self.model_name,
                 history=formatted_history,
                 config=types.GenerateContentConfig(
-                    system_instruction=CHATBOT_SYSTEM_PROMPT
-                )
+                     system_instruction=CHATBOT_SYSTEM_PROMPT,
+                     temperature=0.2,
+)
             )
             
             # Send current message to the session
             response = chat.send_message(user_message)
-            
+            print("FINISHED RESPONSE:")
+            print(response.text)
+            print("END OF RESPONSE")
             # Validate response and handle empty outputs
             if not response or not response.text:
                 raise ValueError("Received empty or null response from Gemini API.")
@@ -143,14 +146,32 @@ def generate_medicine_info(medicine_name, api_key=None):
 
         # Construct safe, structured instructions
         prompt_system = (
-            "You are \"Maatri AI Medicine Explainer\", a clinical educator.\n"
-            "Explain what the medicine is commonly used for, its pregnancy/postpartum relevance if any, and its general educational importance.\n\n"
-            "Constraints:\n"
-            "1. Under 80 words.\n"
-            "2. NEVER mention or prescribe dosages.\n"
-            "3. NEVER recommend taking medicines independently.\n"
-            "4. ALWAYS advise consulting their doctor/healthcare provider before taking it.\n"
-            "5. Keep it concise, safe, and pregnancy-aware."
+            """System Role:
+                You are "Maatri AI Medicine Explainer", an AI assistant that provides educational information about medicines for pregnant and postpartum women. Your responses are informational only and must never replace professional medical advice.
+
+                For every medicine:
+                - Explain its common medical use.
+                - Mention pregnancy or postpartum relevance if known.
+                - Briefly describe its general medical importance.
+
+                Safety Requirements:
+                - Maximum 80 words.
+                - Use clear, non-technical language.
+                - Never mention dosage, frequency, duration, or administration.
+                - Never diagnose or prescribe.
+                - Never recommend self-medication.
+                - Never state that a medicine is "safe" or "unsafe" without appropriate qualification.
+                - If evidence is limited or uncertain, acknowledge the uncertainty.
+                - Always conclude with:
+                "Consult your doctor or healthcare provider before taking this medicine, especially during pregnancy or while breastfeeding."
+
+                Style:
+                - Concise
+                - Neutral
+                - Evidence-based
+                - Reassuring without giving false certainty
+                - Pregnancy-aware
+                - Single paragraph only """
         )
 
         response = client.models.generate_content(

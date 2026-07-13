@@ -103,8 +103,8 @@ class MaatriSHAPExplainer:
         widths = [contributions[f] for f in sorted_feats]
         
         # Color based on positive/negative contribution
-        # Red/warm color for pushing risk higher, blue/cool for pushing risk lower
-        colors = ['#FF4B4B' if w >= 0 else '#1C83E1' for w in widths]
+        # Pink (#EC4899) for pushing risk higher, Sky Blue (#38BDF8) for pushing risk lower
+        colors = ['#EC4899' if w >= 0 else '#38BDF8' for w in widths]
         
         # Create labels with raw values (e.g. "BS = 7.2 (mmol/L)")
         labels = []
@@ -125,30 +125,36 @@ class MaatriSHAPExplainer:
             else:
                 labels.append(f"{f} ({val})")
                 
-        fig, ax = plt.subplots(figsize=(8, 4.5))
+        fig, ax = plt.subplots(figsize=(8, 4.5), facecolor='#1E293B')
+        ax.set_facecolor('#1E293B')
         
         bars = ax.barh(y_pos, widths, align='center', color=colors, height=0.6)
         
-        # Add labels
+        # Add labels and style tick colors
         ax.set_yticks(y_pos)
-        ax.set_yticklabels(labels, fontsize=10)
+        ax.set_yticklabels(labels, fontsize=10, color='#F8FAFC')
+        ax.tick_params(axis='x', colors='#94A3B8', labelsize=9)
+        ax.tick_params(axis='y', colors='#F8FAFC', labelsize=9)
         ax.invert_yaxis()  # top-down feature order (most important at top)
         
         # Add midline
-        ax.axvline(0, color='gray', linestyle='--', linewidth=0.8)
+        ax.axvline(0, color='#94A3B8', linestyle='--', linewidth=0.8)
         
-        ax.set_xlabel('SHAP Value (Feature Influence)', fontsize=10)
-        ax.set_title('AI Risk Prediction Explanation (Local SHAP Analysis)\nRed: Increases Risk | Blue: Decreases Risk', fontsize=12, fontweight='bold', pad=15)
+        ax.set_xlabel('SHAP Value (Feature Influence)', fontsize=10, color='#94A3B8', labelpad=8)
+        ax.set_title('AI Risk Prediction Explanation (Local SHAP Analysis)\nPink: Increases Risk | Blue: Decreases Risk', fontsize=11, fontweight='bold', pad=15, color='#F8FAFC')
         
-        # Remove top/right spines
-        for spine in ['top', 'right']:
-            ax.spines[spine].set_visible(False)
+        # Style spines
+        for spine in ['top', 'right', 'left', 'bottom']:
+            if spine in ['top', 'right']:
+                ax.spines[spine].set_visible(False)
+            else:
+                ax.spines[spine].set_color('#334155')
             
         plt.tight_layout()
         
         if save_path:
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
-            plt.savefig(save_path, dpi=150, bbox_inches='tight')
+            plt.savefig(save_path, dpi=150, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
             plt.close()
             return save_path
         else:

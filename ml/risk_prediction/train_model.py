@@ -3,6 +3,7 @@ import joblib
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
+from sklearn.calibration import CalibratedClassifierCV
 
 from ml.risk_prediction.preprocessing import preprocess_train_data, clean_and_inspect_data
 from ml.risk_prediction.evaluate import evaluate_predictions, print_evaluation_report
@@ -35,7 +36,15 @@ def train_and_select_best_model(csv_path=DEFAULT_CSV_PATH):
     
     # 2. Train Random Forest
     print("\nTraining Random Forest model...")
-    rf_model = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
+    rf_model = RandomForestClassifier(
+    n_estimators=500,
+    max_depth=10,
+    min_samples_split=5,
+    min_samples_leaf=2,
+    class_weight='balanced',
+    random_state=42
+    )
+
     rf_model.fit(X_train, y_train)
     rf_preds = rf_model.predict(X_test)
     rf_metrics = evaluate_predictions(y_test, rf_preds)
@@ -44,11 +53,14 @@ def train_and_select_best_model(csv_path=DEFAULT_CSV_PATH):
     # 3. Train XGBoost
     print("\nTraining XGBoost model...")
     # XGBClassifier handles multiclass. objective='multi:softprob' is default for multiclass
-    xgb_model = XGBClassifier(
-        n_estimators=100,
-        random_state=42,
-        eval_metric='mlogloss',
-        use_label_encoder=False
+    xgb_model =XGBClassifier(
+    n_estimators=300,
+    max_depth=6,
+    learning_rate=0.05,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    eval_metric='mlogloss',
+    random_state=42
     )
     xgb_model.fit(X_train, y_train)
     xgb_preds = xgb_model.predict(X_test)
@@ -80,6 +92,16 @@ def train_and_select_best_model(csv_path=DEFAULT_CSV_PATH):
         
     print(f"--> Selected Best Model: {best_model_name}")
     print("=" * 60)
+    
+
+    # Calibrate probabilities
+    best_model = CalibratedClassifierCV(
+    best_model,
+    method="sigmoid",
+    cv=5
+   )
+
+    best_model.fit(X_train, y_train)
     
     # 5. Save best model
     os.makedirs(MODELS_DIR, exist_ok=True)
