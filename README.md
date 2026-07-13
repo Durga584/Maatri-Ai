@@ -1,103 +1,287 @@
-<<<<<<< HEAD
-# Maatri AI — LLM-Integrated Maternal Healthcare Intelligence System
+# 🤱 Maatri AI – Intelligent Maternal Healthcare Assistant
 
-Maatri AI is a maternal healthcare intelligence system that combines machine learning-based pregnancy risk prediction, explainable AI, personalized healthcare recommendations, and conversational AI support to provide intelligent maternal healthcare assistance for pregnant and postpartum women.
+## Overview
 
-## Project Structure
+Maatri AI is an AI-powered maternal healthcare intelligence system designed to assist pregnant women and new mothers through personalized risk assessment, explainable machine learning, evidence-based recommendations, and conversational AI support.
+
+The project combines **Machine Learning**, **Large Language Models (LLMs)**, **Retrieval-Augmented Generation (RAG)**, and **Explainable AI (SHAP)** to provide safe, transparent, and context-aware maternal healthcare guidance.
+
+> **Disclaimer:** Maatri AI is an educational and informational assistant. It does not replace professional medical advice, diagnosis, or treatment.
+
+---
+
+# Features
+
+### 🤖 AI Chat Assistant
+
+* Conversational maternal healthcare assistant powered by Gemini.
+* Answers pregnancy, postpartum, nutrition, and newborn care questions.
+* Uses prompt engineering and safety guardrails to minimize unsafe responses.
+
+### 📚 Retrieval-Augmented Generation (RAG)
+
+* Retrieves relevant information from a curated maternal healthcare knowledge base.
+* Generates context-aware and evidence-based responses instead of relying only on the LLM's internal knowledge.
+
+### 🩺 Pregnancy Risk Prediction
+
+Predicts maternal health risk as:
+
+* Low Risk
+* Mid Risk
+* High Risk
+
+using clinical parameters including:
+
+* Age
+* Systolic Blood Pressure
+* Diastolic Blood Pressure
+* Blood Sugar
+* Body Temperature
+* Heart Rate
+
+### 📊 Explainable AI
+
+Uses SHAP (SHapley Additive Explanations) to explain:
+
+* Why a prediction was made
+* Which health parameters contributed most
+* Individual feature importance for each prediction
+
+### 💡 Personalized Recommendations
+
+Provides:
+
+* Lifestyle recommendations
+* Nutrition guidance
+* Supplement awareness
+* Health precautions
+* Risk-specific suggestions
+
+### 📈 Interactive Dashboard
+
+* User-friendly Streamlit interface
+* Risk prediction visualization
+* SHAP explanation plots
+* AI-generated healthcare summaries
+* Conversational chatbot interface
+
+---
+
+# Project Architecture
+
+```
+Maatri AI
+│
+├── Streamlit Frontend
+│
+├── FastAPI Backend
+│
+├── Database Layer
+│
+├── Machine Learning Module
+│      ├── Data Preprocessing
+│      ├── Model Training
+│      ├── Risk Prediction
+│      └── SHAP Explainability
+│
+├── Recommendation Engine
+│
+├── RAG Pipeline
+│      ├── Document Loader
+│      ├── Text Chunking
+│      ├── Embedding Generation
+│      ├── Vector Database
+│      └── Context Retrieval
+│
+└── Gemini LLM
+       │
+       └── Final AI Response
+```
+
+---
+
+# Tech Stack
+
+## Programming Languages
+
+* Python
+
+## Frontend
+
+* Streamlit
+
+## Backend
+
+* FastAPI
+
+## Machine Learning
+
+* Scikit-learn
+* Random Forest
+* XGBoost
+* Pandas
+* NumPy
+
+## Explainable AI
+
+* SHAP
+
+## LLM & AI
+
+* Google Gemini
+* LangChain
+* Prompt Engineering
+
+## RAG
+
+* ChromaDB
+* FAISS
+* HuggingFace Embeddings (all-MiniLM-L6-v2)
+
+## Database
+
+* SQLite
+
+## Visualization
+
+* Matplotlib
+
+---
+
+# Project Structure
 
 ```
 maatri-ai/
 │
+├── backend/
+├── database/
 ├── datasets/
-│   ├── download_dataset.py       # Helper script to fetch dataset
-│   └── maternal_health_risk.csv  # Maternal Health Risk Dataset (downloded)
+├── llm/
+├── ml/
+│   ├── explainability/
+│   ├── recommendation_engine/
+│   └── risk_prediction/
 │
 ├── notebooks/
-│   ├── maternal_risk_eda.ipynb   # Exploratory Data Analysis (EDA) notebook
-│   ├── model_training.ipynb      # Interactive model training & selection
-│   ├── shap_analysis.ipynb       # SHAP global and local explainability analysis
-│   └── llm_testing.ipynb         # Testing Gemini API chatbot and summary generator
-│
-├── ml/
-│   ├── risk_prediction/
-│   │   ├── preprocessing.py      # Cleans, maps labels, and scales datasets
-│   │   ├── train_model.py        # Compares Random Forest & XGBoost, saves the best model
-│   │   ├── predict.py            # Runs inference & outputs risk and confidence
-│   │   └── evaluate.py           # Generates classification reports and confusion matrices
-│   │
-│   ├── explainability/
-│   │   └── shap_explainer.py     # Computes local SHAP contributions and generates plots
-│   │
-│   └── recommendation_engine/
-│       └── recommendations.py    # Rule-based recommendations & supplement education notes
-│
-├── llm/
-│   ├── chatbot.py                # Interfaces with Gemini API for postpartum and pregnancy chat
-│   ├── prompts.py                # Stores system prompts and templates for LLM
-│   └── summary_generator.py      # Generates natural-language reports combining ML + SHAP + rules
-│
-├── backend/
-│   └── main.py                   # Streamlit demonstration user interface
-│
-├── models/                       # Folder where joblib models and scalers are saved
-│
-├── requirements.txt              # Project library dependencies
-└── README.md                     # Documentation
+├── models/
+├── requirements.txt
+├── README.md
+└── .env
 ```
 
-## Features
+---
 
-1. **Pregnancy Risk Prediction**: Uses Random Forest and XGBoost to predict if a pregnancy is at **Low Risk**, **Mid Risk**, or **High Risk** based on clinical indicators (Age, BP, Blood Sugar, Temperature, Heart Rate).
-2. **Explainable AI (SHAP)**: Identifies the exact physiological factors that contribute to a patient's risk category. Generates horizontal bar charts explaining predictions locally.
-3. **Clinical Recommendation Engine**: Implements rules to guide users (e.g. limiting sodium for elevated BP, small meals for low blood sugar) and maps standard supplements (like Iron, Calcium, Folic Acid) to their educational purpose.
-4. **Conversational Assistant**: Integrates Gemini API to answer pregnancy nutrition, symptom awareness, and postpartum care questions in a safe, educational, and supportive tone.
-5. **Generative AI Health Summary**: Uses context-aware reasoning to synthesize ML outputs, SHAP explainability values, and recommendations into a natural-language report.
-6. **Simple Streamlit Interface**: Demonstration interface to enter inputs, view outputs and plots, manage medication schedules, and chat.
+# Installation
 
-## Installation & Setup
+Clone the repository:
 
-1. **Install Python 3.10+** (if not already installed).
-2. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Configure Gemini API**:
-   Create a `.env` file in the root of the project:
-   ```env
-   GEMINI_API_KEY=your_gemini_api_key_here
-   ```
-   *Alternatively, you can input your API key directly into the Streamlit UI.*
+```bash
+git clone <repository-url>
+cd maatri-ai
+```
 
-## Running the Application
+Create a virtual environment:
 
-1. **Launch the Interface**:
-   Run the following command to start the Streamlit application:
-   ```bash
-   streamlit run backend/main.py
-   ```
-2. **Initialize/Train Model**:
-   If launching the app for the first time, click the **"Train Model Now"** button in the sidebar to download the UCI Maternal Health Risk dataset and train/select the best ML model.
+```bash
+python -m venv venv
+```
 
-## Running the Jupyter Notebooks
+Activate the environment:
 
-To interact with the research and development notebooks:
-1. Register the python kernel:
-   ```bash
-   python -m ipykernel install --user --name=maatri-ai
-   ```
-2. Open Jupyter:
-   ```bash
-   jupyter notebook
-   ```
-3. Run notebooks sequentially:
-   - `notebooks/maternal_risk_eda.ipynb`
-   - `notebooks/model_training.ipynb`
-   - `notebooks/shap_analysis.ipynb`
-   - `notebooks/llm_testing.ipynb`
+### Windows
 
-## Medical Disclaimer
+```bash
+venv\Scripts\activate
+```
 
-⚠️ **IMPORTANT**: Maatri AI is an educational tool. It does **not** prescribe medications, perform medical diagnoses, or replace professional care. Always consult an obstetrician or healthcare professional for medical concerns.
-=======
-# Maatri-Ai
->>>>>>> 67cd9f377f2dd20d258798b7d6d24ed9d339b331
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Create a `.env` file:
+
+```env
+GEMINI_API_KEY=your_api_key_here
+```
+
+---
+
+# Running the Project
+
+Start the backend:
+
+```bash
+uvicorn backend.main:app --reload
+```
+
+If using Streamlit:
+
+```bash
+streamlit run backend/main.py
+```
+
+---
+
+# Machine Learning Workflow
+
+1. Load maternal health dataset.
+2. Perform preprocessing.
+3. Train ML models.
+4. Select the best-performing model.
+5. Predict maternal health risk.
+6. Generate SHAP explanations.
+7. Produce personalized recommendations.
+8. Display results in the dashboard.
+
+---
+
+# AI Workflow
+
+1. User submits a healthcare query.
+2. Relevant documents are retrieved from the vector database.
+3. Retrieved context is combined with the prompt.
+4. Gemini generates a context-aware response.
+5. Safety guardrails validate the output.
+6. The final response is displayed to the user.
+
+---
+
+# Key Highlights
+
+* AI-powered maternal healthcare assistant
+* Explainable Machine Learning
+* Retrieval-Augmented Generation (RAG)
+* Prompt Engineering
+* Context-aware healthcare chatbot
+* Personalized recommendations
+* Interactive dashboard
+* Modular project architecture
+* Production-ready code organization
+
+---
+
+# Future Enhancements
+
+* Voice-based interaction
+* Multi-language support
+* Appointment scheduling
+* Doctor dashboard
+* Electronic Health Record (EHR) integration
+* Mobile application
+* Wearable device integration
+* Cloud deployment
+
+---
+
+# Medical Disclaimer
+
+Maatri AI is intended for educational and informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Users should always consult qualified healthcare professionals for medical concerns.
