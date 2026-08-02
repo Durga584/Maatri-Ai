@@ -22,3 +22,16 @@ datasets/maternal_health_risk.csv
 models/test_shap_plot.png
 # SQLite database
 *.db
+
+# Node.js
+node_modules/
+frontend/node_modules/
+
+# Build output
+dist/
+frontend/dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
